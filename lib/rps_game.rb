@@ -8,7 +8,7 @@ class RpsGame
   MOVES = %w[rock paper scissors].freeze
 
   def random_move
-    move_index = rand(RpsGame::MOVES.length)
+    move_index = Kernel.rand(RpsGame::MOVES.length)
     RpsGame::MOVES[move_index]
   end
 
@@ -44,7 +44,15 @@ class RpsGame
         return DRAW
       end
     end
-
+  else
     raise 'invalid move'
+  end
+
+  private
+
+  def game_result(p1_move, p2_move = Computer.new)
+    return p1_move if RpsGame::P1_WINS
+    return p2_move if RpsGame::P2_WINS
+    :draw
   end
 end

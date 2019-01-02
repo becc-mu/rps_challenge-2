@@ -18,7 +18,7 @@ class App < Sinatra::Base
   get '/play' do
     @player_name = session[:player_name]
     if @player_name.to_s.empty?
-      redirect '/'
+      erb :no_name_error
     else
       erb :play
     end
@@ -29,6 +29,7 @@ class App < Sinatra::Base
     @computer_move = game.random_move
     @user_move = params[:move]
     game_result = game.move(@user_move, @computer_move)
+
     case game_result
     when RpsGame::P1_WINS
       @win_msg = 'You Win!'

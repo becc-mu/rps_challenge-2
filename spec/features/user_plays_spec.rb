@@ -1,27 +1,22 @@
 # frozen_string_literal: true
 
 feature 'Player registers' do
-  scenario 'player submit a name' do
+  scenario 'should raise an error' do
     visit '/'
-    fill_in :player_name, with: 'Sam'
     click_button 'Submit'
+    visit ''
+    expect(page).to have_content 'Error! A name must be entered'
+  end
+
+  scenario 'player submit a name' do
+    sigin_in_as_sam
     expect(page).to have_content 'Sam'
   end
-end
 
-feature 'User plays rps' do
   scenario 'user submits move and gets his move displayed' do
+    sigin_in_as_sam
     visit '/play'
-    click_button 'Submit'
-    # it will need to display back the user move
-    expect(page).to have_content('rock')
-  end
-
-  scenario 'user submits move and gets move result' do
-    visit '/move'
-    fill_in :move, with: 'rock'
-    click_button 'Submit'
-    # also contain a You Win or You Lose statement
-    expect(page).to have_content('You Win').or have_content('You Lose')
+    choose('move_rock')
+    expect(page).to have_selector("input[value='rock']")
   end
 end
